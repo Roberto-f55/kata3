@@ -1,15 +1,22 @@
-package software.ulpgc.kata3.io;
+package software.ulpgc.kata3.architecture.io;
 
-import software.ulpgc.kata3.model.Movie;
+import software.ulpgc.kata3.architecture.model.Movie;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.zip.GZIPInputStream;
 
 public class RemoteMovieLoader implements MovieLoader{
+    private final Function<String, Movie> deserialize;
+
+    public RemoteMovieLoader(Function<String, Movie> deserialize) {
+        this.deserialize = deserialize;
+    }
+
 
     @Override
     public List<Movie> LoadAll() throws IOException {
@@ -32,13 +39,12 @@ public class RemoteMovieLoader implements MovieLoader{
     }
 
     private List<Movie> LoadFrom(BufferedReader reader) throws IOException {
-        MovieParser parser = new TsvMovieParser();
         List<Movie> movies = new ArrayList<>();
         reader.readLine();
         while (true){
             String line = reader.readLine();
             if (line == null) break;
-            movies.add(parser.parse(line));
+            movies.add(deserialize.apply(line));
         }
         return movies;
     }
