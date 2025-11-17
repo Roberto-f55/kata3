@@ -1,7 +1,7 @@
-package software.ulpgc.kata2.application;
+package software.ulpgc.kata3.application;
 
-import software.ulpgc.kata2.model.Movie;
-import software.ulpgc.kata2.io.RemoteMovieLoader;
+import software.ulpgc.kata3.model.Movie;
+import software.ulpgc.kata3.io.RemoteMovieLoader;
 
 import java.io.IOException;
 import java.util.List;
